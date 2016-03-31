@@ -17,6 +17,7 @@ import java.io.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 class TbisSpringAppApplication implements CommandLineRunner{
@@ -66,7 +67,7 @@ class TbisSpringAppApplication implements CommandLineRunner{
             reader.readLine();
             reader.readLine();
             while ((line = reader.readLine()) != null) {
-                List<Object[]> parsedLine = parseTideDataStringToTideData(line);
+                List<Object[]> parsedLine = TideDataRowMapper.parseTideDataStringToTideData(line);
                 parsedTideData.addAll(parsedLine);
             }
         } catch (IOException e) {
@@ -98,38 +99,18 @@ class TbisSpringAppApplication implements CommandLineRunner{
         return returnedData;
     }
 
-    private List<Object[]> parseTideDataStringToTideData(String tideDataString) {
-
-        List<Object[]> dateTimeAttributeList = new ArrayList<>();
-
-        String[] splitString = tideDataString.split(",");
-
-        // Construct date without time, this is overkill for now,
-        // but still need to establish best practice for inputting data
-        DateTime dateTime = new DateTime(
-                Integer.valueOf(splitString[3]),
-                Integer.valueOf(splitString[2]),
-                Integer.valueOf(splitString[0]),
-                0,0,0
+    List<TideData> findTideDataWithinTimeSpan(DateTime startDateTime, DateTime endDateTime) {
+        List<Map<String, Object>> returnedObjectMap = jdbcTemplate.queryForList(
+                "SELECT * FROM tide_data WHERE date_time BETWEEN ? and ? ORDER BY date_time ASC",
+                new Object[]{fmt.print(startDateTime), fmt.print(endDateTime)}
         );
 
-        for(int i=4; i<splitString.length; i+=2) {
-            // Parse date
-            String[] hourMin = splitString[i].split(":");
-            DateTime tideDateTime = dateTime
-                    .withMinuteOfHour(
-                            Integer.parseInt(hourMin[1])
-                    ).withHourOfDay(
-                            Integer.parseInt(hourMin[0])
-                    );
-
-            String[] stringArray = new String[3];
-            stringArray[0] = tideDateTime.toString();
-            stringArray[1] = splitString[i+1];
-            stringArray[2] = "64000";
-            dateTimeAttributeList.add(stringArray);
+        List<TideData> returnedData = new ArrayList<>();
+        for(Map row:returnedObjectMap) {
+            TideData td = TideDataRowMapper.mapRowToTideData(new TideData(), row);
+            returnedData.add(td);
         }
-        return dateTimeAttributeList;
+        return returnedData;
     }
 
     private TideData findByTideDataId(int tideDataId) {
