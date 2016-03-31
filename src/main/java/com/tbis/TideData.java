@@ -1,6 +1,8 @@
 package com.tbis;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /*
  * A class to allow organization of tide data by time and height
@@ -8,10 +10,10 @@ import org.joda.time.DateTime;
 class TideData {
 
     private long id;
-
     private DateTime time;
     private float height;
     private int locationId;
+    private static final DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.s");
 
     TideData(){}
 
@@ -22,21 +24,20 @@ class TideData {
         this.locationId = locationId;
     }
 
-    public TideData(String id, String dateTime, String height, String locationId) {
+    public TideData(String id, String time, String height, String locationId) {
         this.id = Long.valueOf(id);
-        this.time = new DateTime(dateTime);
-        this.height = Float.valueOf(height);
+        this.time = DateTime.parse(time, fmt);
+        this.height = Float.parseFloat(height);
         this.locationId = Integer.valueOf(locationId);
-        // TODO: catch exceptions
     }
 
     public long getId() { return id; }
 
     public void setId(long id) { this.id = id; }
 
-    public DateTime getTime() {
-        return time;
-    }
+    // Returning formatted string because couldn't get JsonFormat annotation to work :(
+    // public DateTime getTime() { return time; }
+    public String getTime() { return fmt.print(time); }
 
     public void setTime(DateTime time) {
         this.time = time;
@@ -57,4 +58,5 @@ class TideData {
     public void setLocationId(int locationId) {
         this.locationId = locationId;
     }
+
 }

@@ -8,6 +8,9 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Data mapper for serializing TideData from jdbc queries.
@@ -25,4 +28,46 @@ class TideDataRowMapper implements RowMapper{
         tideData.setLocationId(rs.getInt("location_id"));
         return tideData;
     }
+
+    public static TideData mapRowToTideData(TideData td, Map row) {
+        td.setId(Long.parseLong(row.get("id").toString()));
+        td.setHeight(Float.parseFloat(row.get("tide_height").toString()));
+        td.setLocationId(Integer.valueOf(row.get("location_id").toString()));
+        td.setTime(DateTime.parse(row.get("date_time").toString(), fmt));
+        return td;
+    }
+
+    public static List<Object[]> parseTideDataStringToListArray(String tideDataString) {
+
+        String[] splitString = tideDataString.split(",");
+
+        // Construct date without time outside of the loop
+        DateTime dateTime = new DateTime(
+                Integer.valueOf(splitString[3]),
+                Integer.valueOf(splitString[2]),
+                Integer.valueOf(splitString[0]),
+                0,0,0
+        );
+
+        List<Object[]> dateTimeAttributeList = new ArrayList<>();
+        for(int i=4; i<splitString.length; i+=2) {
+            // Parse date
+            String[] hourMin = splitString[i].split(":");
+            DateTime tideDateTime = dateTime
+                    .withMinuteOfHour(
+                            Integer.parseInt(hourMin[1])
+                    ).withHourOfDay(
+                            Integer.parseInt(hourMin[0])
+                    );
+
+            String[] stringArray = new String[3];
+            stringArray[0] = tideDateTime.toString();
+            stringArray[1] = splitString[i+1];
+            stringArray[2] = "64000";
+            dateTimeAttributeList.add(stringArray);
+        }
+        return dateTimeAttributeList;
+    }
+
+
 }

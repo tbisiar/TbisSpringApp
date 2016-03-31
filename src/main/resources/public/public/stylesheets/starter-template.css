@@ -1,0 +1,45 @@
+html, body {
+  min-height: 100%;
+}
+
+body {
+  padding-top: 50px;
+  background-image: url('../images/GoPro/StingrayHarbor-IntoTheWater5-Wide.jpg');
+  background-repeat: repeat-x;
+  background-attachment: fixed;
+  background-position: left bottom;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+.tideChart {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+div.verticalSpacingForTideChart {
+  display: block;
+  height: 230px;
+  width: 100%;
+}
+
+svg {
+  padding: 0px 0px 15px 15px;
+}
+
+#brand {
+  position: relative;
+}
+svg.brand0 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+svg.brand1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

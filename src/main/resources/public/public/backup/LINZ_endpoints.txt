@@ -1,0 +1,25 @@
+
+// getCapabilities
+https://data.linz.govt.nz/services;key=4e950ac13c4146aea3833dd48dc62f54/wfs/layer-2101?service=WFS&request=GetCapabilities
+
+// Example for get count for type
+http://example.com/geoserver/wfs?
+  service=wfs&
+  version=2.0.0&
+  request=GetFeature&
+  typeNames=namespace:featuretype&
+  count=N
+
+// Formatted query
+https://data.linz.govt.nz/services;key=4e950ac13c4146aea3833dd48dc62f54/wfs/layer-2101?
+  service=wfs&
+  version=2.0.0&
+  request=getFeature&
+  typeNames=data.linz.govt.nz:layer-2101&
+  count=5
+
+// Count of tide
+https://data.linz.govt.nz/services;key=4e950ac13c4146aea3833dd48dc62f54/wfs/layer-2101?service=wfs&version=2.0.0&request=getFeature&typeNames=data.linz.govt.nz:layer-2101&count=5
+
+
+ data.linz.govt.nz:layer-2101

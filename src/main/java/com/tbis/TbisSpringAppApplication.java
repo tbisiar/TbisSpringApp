@@ -17,16 +17,16 @@ import java.io.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 class TbisSpringAppApplication implements CommandLineRunner{
 
     private static final Logger logger = LoggerFactory.getLogger(TbisSpringAppApplication.class);
-    private static final DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.s");
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
+    public JdbcTemplate jdbcTemplate;
 
     public static void main(String[] args) {
         setLoggingLevel(Level.TRACE);
@@ -37,6 +37,11 @@ class TbisSpringAppApplication implements CommandLineRunner{
         for(String beanName: ctx.getBeanDefinitionNames()) {
             logger.debug("   " + beanName);
         }
+    }
+
+    private static void setLoggingLevel(ch.qos.logback.classic.Level level) {
+        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
+        root.setLevel(level);
     }
 
     @Override
@@ -59,14 +64,14 @@ class TbisSpringAppApplication implements CommandLineRunner{
         List<Object[]> parsedTideData = new ArrayList<>();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(filePath + "/TbisSpringApp/src/main/resources/Auckland 2016.csv"));
-            String line = null;
+            reader = new BufferedReader(new FileReader(filePath + "/src/main/resources/Auckland 2016.csv"));
+            String line;
             // skip first three lines for header
             reader.readLine();
             reader.readLine();
             reader.readLine();
             while ((line = reader.readLine()) != null) {
-                List<Object[]> parsedLine = parseTideDataStringToTideData(line);
+                List<Object[]> parsedLine = TideDataRowMapper.parseTideDataStringToListArray(line);
                 parsedTideData.addAll(parsedLine);
             }
         } catch (IOException e) {
@@ -83,6 +88,13 @@ class TbisSpringAppApplication implements CommandLineRunner{
         logger.debug("mostRecentTideData = " + mostRecentTideData);
     }
 
+    private void closeQuietly(Closeable c) {
+        if (c != null) {
+            try {
+                c.close();
+            } catch (IOException ignored) {}
+        }
+    }
     TideData findMostRecentTideData(DateTime dateTime) {
         TideData returnedData = null;
 
@@ -98,56 +110,25 @@ class TbisSpringAppApplication implements CommandLineRunner{
         return returnedData;
     }
 
-    private List<Object[]> parseTideDataStringToTideData(String tideDataString) {
+    List<TideData> findTideDataWithinTimeSpan(DateTime startDateTime, DateTime endDateTime) {
 
-        List<Object[]> dateTimeAttributeList = new ArrayList<>();
-
-        String[] splitString = tideDataString.split(",");
-
-        // Construct date without time, this is overkill for now,
-        // but still need to establish best practice for inputting data
-        DateTime dateTime = new DateTime(
-                Integer.valueOf(splitString[3]),
-                Integer.valueOf(splitString[2]),
-                Integer.valueOf(splitString[0]),
-                0,0,0
+        List<Map<String, Object>> returnedObjectMap = jdbcTemplate.queryForList(
+                "SELECT * FROM tide_data WHERE date_time BETWEEN ? and ? ORDER BY date_time ASC",
+                new Object[]{fmt.print(startDateTime), fmt.print(endDateTime)}
         );
 
-        for(int i=4; i<splitString.length; i+=2) {
-            // Parse date
-            String[] hourMin = splitString[i].split(":");
-            DateTime tideDateTime = dateTime
-                    .withMinuteOfHour(
-                            Integer.parseInt(hourMin[1])
-                    ).withHourOfDay(
-                            Integer.parseInt(hourMin[0])
-                    );
-
-            String[] stringArray = new String[3];
-            stringArray[0] = tideDateTime.toString();
-            stringArray[1] = splitString[i+1];
-            stringArray[2] = "64000";
-            dateTimeAttributeList.add(stringArray);
+        List<TideData> returnedData = new ArrayList<>();
+        for(Map row:returnedObjectMap) {
+            TideData td = TideDataRowMapper.mapRowToTideData(new TideData(), row);
+            returnedData.add(td);
         }
-        return dateTimeAttributeList;
+
+        return returnedData;
     }
 
     private TideData findByTideDataId(int tideDataId) {
         String sql = "SELECT * FROM tide_data WHERE tide_data.id = ?";
-        TideData tideData = (TideData) jdbcTemplate.queryForObject(sql, new Object[] {tideDataId}, new TideDataRowMapper());
-        return tideData;
+        return (TideData) jdbcTemplate.queryForObject(sql, new Object[] {tideDataId}, new TideDataRowMapper());
     }
 
-    public static void setLoggingLevel(ch.qos.logback.classic.Level level) {
-        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
-        root.setLevel(level);
-    }
-
-    private void closeQuietly(Closeable c) {
-        if (c != null) {
-            try {
-                c.close();
-            } catch (IOException ignored) {}
-        }
-    }
 }

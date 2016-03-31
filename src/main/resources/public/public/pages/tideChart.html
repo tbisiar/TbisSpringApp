@@ -1,0 +1,31 @@
+<!-- tideChart.html -->
+
+  <div class="jumbotron text-center">
+    <h1>Tide Chart</h1>
+    <div class="container">
+      <div class="starter-template">
+        <h2>{{ message }}</h2>
+        <p class="lead">
+        <br>  I am retrieving this data via calls against the <a href="http://www.linz.govt.nz/data/linz-data-service">LINZ</a> service for tide information.
+        </p>
+      </div>
+
+      <!-- sine wave diagram -->
+      <!-- <div id="svgTest" class="tideChart">
+        <svg width="100%" height="200" viewbox="0 0 600 900" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> -->
+          <!-- y-axis -->
+          <!-- <line x1="314" y1="0" x2="314" y2="1000" style="stroke:black;stroke-width:1"/>
+        </svg>
+      </div>
+      <div class="verticalSpacingForTideChart"></div-->
+
+      <!-- Bezier curve diagram -->
+      <div id="svgTestD3" class="tideChart"></div>
+
+      <!--img src="images/GoPro/StingrayHarbor-IntoTheWater5-Wide.jpg"-->
+
+
+    </div>
+
+
+  </div>

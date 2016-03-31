@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" ng-app="tbApp">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Software development portfolio for tbisiar">
+    <meta name="author" content="tbisiar">
+    <link rel="icon" href="images/TB.ico">
+
+    <title>tbisiar</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="stylesheets/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="stylesheets/starter-template.css" rel="stylesheet">
+
+    <!-- AngularJS script import -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+
+  </head>
+
+  <body ng-controller="mainController">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">tbisiar Portfolio</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#jsonComparator">JSON Comparator</a></li>
+            <li><a href="#tideChart">TideChart</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><img src="images/TB.gif"></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="starter-template">
+        <h1>Hello, I am tbisiar and this is my portfolio.</h1>
+        <p class="lead">
+          <br>This site is setup to provide examples of my previous work and to act as a sandbox for my personal projects.
+          <br>
+          <br>Some of the code associated with these projects can be found via my <a href="https://github.com/tbisiar">GitHub account</a>, and you can find my professional history via my <a href="https://nz.linkedin.com/in/terrybisiar">LinkedIn profile</a>.
+          <br>
+          <br>Please feel free to look around, I'd love to hear your feedback!
+        </p>
+      </div>
+
+      <div>
+        <div id="main">
+        {{ message }}
+        </div>
+      </div>
+    </div><!-- /.container -->
+  </body>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+  <script src="scripts/bootstrap.min.js"></script>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script src="scripts/ie10-viewport-bug-workaround.js"></script>
+
+  <script src="scripts/script.js"></script>
+</html>
