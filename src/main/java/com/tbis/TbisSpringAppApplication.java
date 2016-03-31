@@ -59,7 +59,7 @@ class TbisSpringAppApplication implements CommandLineRunner{
         List<Object[]> parsedTideData = new ArrayList<>();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(filePath + "/TbisSpringApp/src/main/resources/Auckland 2016.csv"));
+            reader = new BufferedReader(new FileReader(filePath + "/src/main/resources/Auckland 2016.csv"));
             String line = null;
             // skip first three lines for header
             reader.readLine();
