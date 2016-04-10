@@ -1,0 +1,82 @@
+<!-- contact.html -->
+<div class="container">
+  <div class="starter-template">
+    <h1>Contact Page</h1>
+  </div>
+    <div class="jumbotron text-center">
+      <div class="starter-template">
+        <h2>{{ message }}</h2>
+        <p class="lead">
+          <br>  You can contact me any number of ways, but my preference if you are here is for you to send me an email via the form below.
+
+          <form name="order" method="post" action="/submit">
+            <fieldset>
+              <legend>Contact Details</legend>
+              <ul>
+                <li>
+                  <label class="required">
+                    <div>Full Name</div>
+                    <input name="name" required autofocus></input>
+                  </label>
+                </li>
+                <li>
+                  <label class="required">
+                    <div>Email Address</div>
+                    <input type="email" name="email" required>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <div>Postal Address</div>
+                    <input name="address1" placeholder="Address Line 1">
+                  </label>
+                  <div>&nbsp;</div>
+                  <input name="address2" placeholder="Address Line 2">
+                  <div>&nbsp;</div>
+                  <input name="city" class="city" placeholder="Town/City">
+                  <input name="state" class="state" placeholder="State">
+                  <input name="zip" class="zip" placeholder="Zip Code">
+                  <div>&nbsp;</div>
+                  <select name="country">
+                    <option value="0">Country</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                  </select>
+                </li>
+                <li>
+                  <label>
+                    <div>Home Phone No.</div>
+                    <input type="tel" name="homephone">
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <div>Cell Phone No.</div>
+                    <input type="tel" name="cellphone">
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <div>Skype Name</div>
+                    <input name="skype">
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <div>Twitter</div>
+                    <span class="twitter_prefix">@</span>
+                    <input name="twitter" class="twitter">
+                  </label>
+                </li>
+              </ul>
+            </fieldset>
+
+            <div class="buttons">
+              <input type="submit" value="Submit Order">
+              <input type="submit" id="saveOrder" value="Save Order" formnovalidate formaction="/save">
+            </div>
+          </form>
+        </p>
+      </div>
+    </div>
+  </div>

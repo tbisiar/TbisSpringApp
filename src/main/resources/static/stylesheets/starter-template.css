@@ -1,0 +1,124 @@
+html, body {
+  min-height: 100%;
+}
+
+body {
+  padding-top: 50px;
+  background-image: url('../images/GoPro/StingrayHarbor-IntoTheWater5-Wide.jpg');
+  background-repeat: repeat-x;
+  background-attachment: fixed;
+  background-position: left bottom;
+  background-size: cover;
+}
+
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+.tideChart {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+div.verticalSpacingForTideChart {
+  display: block;
+  height: 230px;
+  width: 100%;
+}
+
+svg {
+  padding: 0px 0px 15px 15px;
+}
+
+#brand {
+  position: relative;
+}
+svg.brand0 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+svg.brand1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.bg__bar {
+  /* fix background */
+  background-attachment: fixed;
+
+  /* center it */
+  background-position: center center;
+
+  /* Scale it nicely to the element */
+  background-size: cover;
+
+  height: 60vh;
+
+  background-image: url(
+    https://s3-us-west-2.amazonaws.com/terrybisiar.com/images/GoPro/StingrayHarbor-IntoTheWater2.jpg
+  );
+}
+
+.bg__bazz {
+
+  /* fix background */
+  background-attachment: fixed;
+
+  /* center it */
+  background-position: center center;
+
+  /* Scale it nicely to the element */
+  background-size: cover;
+
+  height: 30vh;
+
+  background-image: url(
+    https://s3-us-west-2.amazonaws.com/terrybisiar.com/images/GoPro/StingrayHarbor-IntoTheWater4.jpg
+  );
+}
+
+.bg__bazzz {
+  /* fix background */
+  background-attachment: fixed;
+
+  /* center it */
+  background-position: 50vh 10vh;
+
+  /* Scale it nicely to the element */
+  background-size: cover;
+
+  height: 80vh;
+
+  background-image: url(
+    https://s3-us-west-2.amazonaws.com/terrybisiar.com/images/GoPro/StingrayHarbor-IntoTheWater5.jpg
+  );
+}
+
+
+.parallax-fixed {
+  /* fix background */
+  background-attachment: fixed;
+
+  /* center it */
+  background-position: center center;
+
+  /* Cover entire screen width */
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -1;
+
+  /* Scale it nicely to the element */
+  background-size: cover;
+
+  height: 90vh;
+
+  background-image: url(
+    https://s3-us-west-2.amazonaws.com/terrybisiar.com/images/GoPro/StingrayHarbor-IntoTheWater2.jpg
+  );
+}
+

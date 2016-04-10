@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +25,13 @@ public class TideDataController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public TideData loadTideDataById(@PathVariable("id") int id) {
+        TideData tideData = app.findByTideDataById(id);
+        return tideData;
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/mostRecent", method = RequestMethod.GET)
     public TideData loadMostRecentTideData() {
         TideData tideData = app.findMostRecentTideData(DateTime.now());
@@ -36,7 +44,11 @@ public class TideDataController {
     public List<TideData> loadNext24HourTideData() {
         DateTime now = new DateTime();
         DateTime twentyFourHoursFromNow = now.plusDays(1);
-        List<TideData> tideDataList = app.findTideDataWithinTimeSpan(now, twentyFourHoursFromNow);
+        List<TideData> tideDataList = new ArrayList<>();
+        tideDataList.add(app.findMostRecentTideData(DateTime.now()));
+        tideDataList.addAll(app.findTideDataWithinTimeSpan(now, twentyFourHoursFromNow));
+        DateTime dt = new DateTime();
+        tideDataList.add(app.findNextUpcomingTideData(twentyFourHoursFromNow));
         return tideDataList;
     }
 }
